@@ -1,0 +1,108 @@
+:root {
+  --slidemind-panel-width: 320px;
+  --slidemind-panel-bg: #0f1115;
+  --slidemind-panel-border: #1b1f2a;
+  --slidemind-panel-text: #e6e8ef;
+  --slidemind-panel-muted: #9aa3b2;
+  --slidemind-panel-accent: #2e5cff;
+  --slidemind-panel-shadow: 0 12px 30px rgba(0, 0, 0, 0.45);
+  --slidemind-panel-radius: 14px;
+}
+
+body.slidemind-active {
+  padding-left: var(--slidemind-panel-width);
+  box-sizing: border-box;
+}
+
+#slidemind-panel {
+  position: fixed;
+  left: 0;
+  top: 0;
+  height: 100vh;
+  width: var(--slidemind-panel-width);
+  background: radial-gradient(circle at top, rgba(46, 92, 255, 0.2), transparent 45%),
+    var(--slidemind-panel-bg);
+  color: var(--slidemind-panel-text);
+  border-right: 1px solid var(--slidemind-panel-border);
+  box-shadow: var(--slidemind-panel-shadow);
+  z-index: 2147483646;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 20px 18px;
+  font-family: "IBM Plex Sans", "Segoe UI", sans-serif;
+}
+
+#slidemind-panel header {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+#slidemind-panel h1 {
+  margin: 0;
+  font-size: 20px;
+  letter-spacing: 0.4px;
+}
+
+#slidemind-panel p {
+  margin: 0;
+  font-size: 12px;
+  color: var(--slidemind-panel-muted);
+}
+
+.slidemind-controls {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.slidemind-button {
+  appearance: none;
+  border: 1px solid transparent;
+  border-radius: 10px;
+  padding: 10px 12px;
+  background: #1b1f2a;
+  color: var(--slidemind-panel-text);
+  font-size: 13px;
+  cursor: pointer;
+  transition: transform 0.15s ease, border-color 0.2s ease, background 0.2s ease;
+}
+
+.slidemind-button:hover {
+  transform: translateY(-1px);
+  border-color: rgba(46, 92, 255, 0.6);
+}
+
+.slidemind-button.primary {
+  background: linear-gradient(120deg, rgba(46, 92, 255, 0.9), rgba(46, 92, 255, 0.6));
+  border-color: rgba(46, 92, 255, 0.9);
+}
+
+.slidemind-hidden-input {
+  display: none;
+}
+
+.slidemind-page-info {
+  font-size: 12px;
+  color: var(--slidemind-panel-muted);
+}
+
+.slidemind-canvas-container {
+  flex: 1;
+  border: 1px solid rgba(154, 163, 178, 0.2);
+  border-radius: var(--slidemind-panel-radius);
+  background: #0b0d12;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px;
+  overflow: auto;
+}
+
+.slidemind-canvas {
+  display: block;
+  max-width: 100%;
+  border-radius: 10px;
+  background: #ffffff;
+}
