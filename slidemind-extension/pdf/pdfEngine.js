@@ -3,6 +3,8 @@
 
   const CANVAS_ID = "slidemind-pdf-canvas";
   const CONTAINER_ID = "slidemind-canvas-container";
+  const PDF_JS_VERSION = "4.8.69";
+  const PDF_JS_CDN_BASE = `https://cdnjs.cloudflare.com/ajax/libs/pdf.js/${PDF_JS_VERSION}`;
 
   let canvasRef = null;
   let contextRef = null;
@@ -24,15 +26,33 @@
 
   const getState = () => SlideMind.pdfState;
 
+  const loadPdfJsFromCdn = async () => {
+    if (window.pdfjsLib) {
+      return;
+    }
+
+    await new Promise((resolve, reject) => {
+      const script = document.createElement("script");
+      script.src = `${PDF_JS_CDN_BASE}/pdf.min.js`;
+      script.async = true;
+      script.onload = resolve;
+      script.onerror = () => reject(new Error("Failed to load PDF.js from CDN"));
+      document.head.appendChild(script);
+    });
+
+    if (!window.pdfjsLib) {
+      throw new Error("PDF.js script loaded but window.pdfjsLib is still unavailable");
+    }
+  };
+
   SlideMind.pdfEngine = {
     initializePDFEngine: async () => {
       if (!window.pdfjsLib) {
-        const error = new Error("window.pdfjsLib missing from libs/pdf.min.js");
-        console.error("[SlideMind] PDF.js initialization failed", error);
-        throw error;
+        console.warn("[SlideMind] local pdf.min.js missing. Loading PDF.js from CDN fallback.");
+        await loadPdfJsFromCdn();
       }
 
-      window.pdfjsLib.GlobalWorkerOptions.workerSrc = chrome.runtime.getURL("libs/pdf.worker.min.js");
+      window.pdfjsLib.GlobalWorkerOptions.workerSrc = `${PDF_JS_CDN_BASE}/pdf.worker.min.js`;
       console.info("[SlideMind] pdfjs available");
 
       canvasRef = ensureCanvas();
